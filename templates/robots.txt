@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /downloads/
+
+Sitemap: https://beneficentschools.example.com/sitemap.xml

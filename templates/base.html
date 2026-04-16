@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ school_tagline }}{% endblock %}">
+  <meta name="robots" content="{% block meta_robots %}index,follow{% endblock %}">
+
+  {% block canonical %}
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  {% endblock %}
+
+  {% block open_graph %}
+  <meta property="og:title" content="{% block og_title %}{{ site_name }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ school_tagline }}{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:type" content="website">
+  {% endblock %}
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "{{ site_name }}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+    "description": "{{ school_tagline }}"{% if site_settings.contact_phone %},
+    "telephone": "{{ site_settings.contact_phone }}"{% endif %}{% if site_settings.contact_email %},
+    "email": "{{ site_settings.contact_email }}"{% endif %}{% if site_settings.address %},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ site_settings.address }}"
+    }{% endif %}
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 flex flex-col min-h-screen {% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  {% include "includes/announcement.html" %}
+  {% include "includes/header.html" %}
+  {% include "includes/messages.html" %}
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "includes/footer.html" %}
+
+  <!-- Mobile Sticky CTA Bar -->
+  <div class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur border-t border-gray-100 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 flex justify-between items-center z-50">
+    <a href="{% url 'core:contact' %}" class="flex-1 mr-3 flex items-center justify-center bg-green-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-green-500/30 active:scale-95 transition-transform">
+      <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.126.549 4.195 1.594 6.014L.026 24l6.109-1.602a11.954 11.954 0 0 0 5.896 1.543h.005c6.643 0 12.029-5.385 12.029-12.031C24.065 5.385 18.681 0 12.031 0zm0 21.986h-.005a9.986 9.986 0 0 1-5.088-1.385l-.364-.216-3.784.992.999-3.69-.237-.377a9.966 9.966 0 0 1-1.526-5.28c0-5.508 4.484-9.992 9.993-9.992 5.511 0 9.994 4.484 9.994 9.992.001 5.51-4.483 9.991-9.982 9.991zm5.483-7.491c-.301-.151-1.782-.879-2.058-.98-.276-.101-.478-.151-.679.151-.201.302-.779.98-.955 1.181-.176.202-.352.227-.653.076-1.597-.803-2.651-1.373-3.67-2.909-.23-.346.228-.319.814-1.491.101-.202.051-.378-.025-.529-.075-.151-.679-1.637-.93-2.241-.243-.59-.49-.51-.679-.52-.176-.01-.378-.01-.579-.01-.201 0-.528.076-.804.378-.276.302-1.055 1.033-1.055 2.519 0 1.487 1.08 2.924 1.231 3.125.151.201 2.135 3.257 5.176 4.568 2.086.901 2.822.844 3.327.708.572-.154 1.782-.728 2.033-1.434.251-.706.251-1.309.176-1.434-.076-.126-.277-.202-.578-.353z"/></svg>
+      Chat
+    </a>
+    <a href="{% url 'admissions:index' %}" class="flex-[2] flex items-center justify-center bg-blue-900 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-900/30 active:scale-95 transition-transform">
+      Apply Now
+    </a>
+  </div>
+  
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({ once: true, offset: 50, duration: 800 });
+    });
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

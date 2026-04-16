@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us | {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 section-fade-in">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">Get in touch</h1>
+            <p class="mt-4 text-xl text-gray-500">
+                We would love to hear from you. Whether you have a question about admissions, fees, or our curriculum, our team is ready to answer all your questions.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <!-- Contact Info Cards -->
+            <div class="lg:col-span-1 flex flex-col gap-6">
+                <!-- Address Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex items-start group hover:shadow-md transition-shadow">
+                    <div class="flex-shrink-0 w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mr-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Visit Us</h3>
+                        <p class="text-gray-600 whitespace-pre-line leading-relaxed">{% if site_settings.address %}{{ site_settings.address }}{% else %}No Address Available{% endif %}</p>
+                    </div>
+                </div>
+
+                <!-- Phone Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex items-start group hover:shadow-md transition-shadow">
+                    <div class="flex-shrink-0 w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mr-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Call Us</h3>
+                        <p class="text-gray-600 mb-1">{% if site_settings.contact_phone %}{{ site_settings.contact_phone }}{% else %}No Phone Available{% endif %}</p>
+                        {% if site_settings.whatsapp_number %}
+                        <a href="https://wa.me/{{ site_settings.whatsapp_number }}" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center text-sm transition-colors">
+                            Chat on WhatsApp &rarr;
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex items-start group hover:shadow-md transition-shadow">
+                    <div class="flex-shrink-0 w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mr-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Email Us</h3>
+                        <p class="text-gray-600 break-all">{% if site_settings.contact_email %}{{ site_settings.contact_email }}{% else %}No Email Available{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl shadow-gray-200/50 p-8 sm:p-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Send us a message</h3>
+                
+                <form method="post" action="{% url 'core:contact' %}" class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
+                    {% csrf_token %}
+                    
+                    <div class="sm:col-span-2">
+                        <label for="{{ form.name.id_for_label }}" class="block text-sm font-semibold text-gray-700">Full Name</label>
+                        <div class="mt-2 text-red-500 font-medium">{{ form.name.errors }}</div>
+                        <input type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" class="block w-full rounded-md border-gray-300 py-3 px-4 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 border transition-colors outline-none" required>
+                    </div>
+
+                    <div>
+                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700">Email Address</label>
+                        <div class="mt-2 text-red-500 font-medium">{{ form.email.errors }}</div>
+                        <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" class="block w-full rounded-md border-gray-300 py-3 px-4 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 border transition-colors outline-none" required>
+                    </div>
+
+                    <div>
+                        <label for="{{ form.phone.id_for_label }}" class="block text-sm font-semibold text-gray-700">Phone Number (Optional)</label>
+                        <div class="mt-2 text-red-500 font-medium">{{ form.phone.errors }}</div>
+                        <input type="text" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" class="block w-full rounded-md border-gray-300 py-3 px-4 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 border transition-colors outline-none">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="{{ form.subject.id_for_label }}" class="block text-sm font-semibold text-gray-700">Subject</label>
+                        <div class="mt-2 text-red-500 font-medium">{{ form.subject.errors }}</div>
+                        <input type="text" name="{{ form.subject.name }}" id="{{ form.subject.id_for_label }}" class="block w-full rounded-md border-gray-300 py-3 px-4 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 border transition-colors outline-none" required>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="{{ form.message.id_for_label }}" class="block text-sm font-semibold text-gray-700">Message</label>
+                        <div class="mt-2 text-red-500 font-medium">{{ form.message.errors }}</div>
+                        <textarea name="{{ form.message.name }}" id="{{ form.message.id_for_label }}" rows="4" class="block w-full rounded-md border-gray-300 py-3 px-4 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 border transition-colors outline-none" required></textarea>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <button type="submit" class="w-full inline-flex justify-center items-center rounded-md border border-transparent bg-blue-900 px-8 py-4 text-base font-bold text-white shadow-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all transform hover:-translate-y-0.5">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

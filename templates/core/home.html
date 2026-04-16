@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home | {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+{% if heroes %}
+    {% for hero in heroes %}
+    <section class="relative bg-blue-900 text-white min-h-[80vh] flex items-center">
+        <!-- Background image -->
+        <div class="absolute inset-0 z-0">
+            {% if hero.image %}
+            <img src="{{ hero.image.url }}" alt="{{ hero.title }}" class="w-full h-full object-cover opacity-40">
+            {% endif %}
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-gray-900/60"></div>
+        </div>
+        
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-0" data-aos="fade-up" data-aos-duration="1000">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-white leading-tight">
+                    {{ hero.title }}
+                </h1>
+                {% if hero.subtitle %}
+                <p class="text-lg sm:text-xl md:text-2xl font-light text-blue-100 mb-8 max-w-2xl">
+                    {{ hero.subtitle }}
+                </p>
+                {% endif %}
+                <div class="flex flex-wrap gap-4">
+                    {% if hero.primary_button_text %}
+                    <a href="{{ hero.primary_button_link }}" class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-bold rounded-md text-blue-900 bg-white hover:bg-gray-50 transition-colors duration-200 shadow-lg hover:-translate-y-0.5 transform">
+                        {{ hero.primary_button_text }}
+                    </a>
+                    {% endif %}
+                    {% if hero.secondary_button_text %}
+                    <a href="{{ hero.secondary_button_link }}" class="inline-flex justify-center items-center px-8 py-3 border-2 border-white text-base font-bold rounded-md text-white hover:bg-white/10 transition-colors duration-200">
+                        {{ hero.secondary_button_text }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+{% else %}
+    
+    <!-- Default Hero Placeholder -->
+    <section class="relative bg-blue-900 text-white min-h-[70vh] flex items-center">
+        <div class="absolute inset-0 z-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-950"></div>
+        <div class="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-16" data-aos="zoom-in" data-aos-duration="1000">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-white leading-tight">
+                {{ school_tagline }}
+            </h1>
+            <p class="text-xl text-blue-100 mb-8">
+                Beneficent Schools provides a balanced environment where children grow
+                academically, morally, and spiritually through quality Western and Islamic education.
+            </p>
+            <div class="flex justify-center flex-wrap gap-4">
+                <a href="#" class="px-8 py-3 bg-white text-blue-900 font-bold rounded hover:bg-gray-100 transition-colors">Apply Now</a>
+                <a href="#" class="px-8 py-3 border-2 border-white text-white font-bold rounded hover:bg-white/10 transition-colors">Book a Visit</a>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Quick Identity Strip -->
+<section class="bg-white/95 backdrop-blur-sm py-10 shadow-2xl shadow-blue-900/10 relative z-20 sm:-mt-12 mx-auto max-w-7xl sm:rounded-2xl border border-white/50 mb-20 section-fade-in" data-aos="fade-up" data-aos-delay="200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center divide-x divide-gray-100">
+            <div class="p-2 sm:p-4 hover:bg-blue-50 transition-colors rounded-lg group">
+                <h3 class="text-base sm:text-lg font-bold text-blue-900 group-hover:text-blue-700">Primary School</h3>
+                <p class="text-xs sm:text-sm text-gray-500 mt-1">Foundational Years</p>
+            </div>
+            <div class="p-2 sm:p-4 hover:bg-blue-50 transition-colors rounded-lg group">
+                <h3 class="text-base sm:text-lg font-bold text-blue-900 group-hover:text-blue-700">Secondary School</h3>
+                <p class="text-xs sm:text-sm text-gray-500 mt-1">Leadership & Excellence</p>
+            </div>
+            <div class="p-2 sm:p-4 hover:bg-blue-50 transition-colors rounded-lg group">
+                <h3 class="text-base sm:text-lg font-bold text-blue-900 group-hover:text-blue-700">Western Curriculum</h3>
+                <p class="text-xs sm:text-sm text-gray-500 mt-1">Global Standards</p>
+            </div>
+            <div class="p-2 sm:p-4 hover:bg-blue-50 transition-colors rounded-lg group">
+                <h3 class="text-base sm:text-lg font-bold text-blue-900 group-hover:text-blue-700">Islamic Curriculum</h3>
+                <p class="text-xs sm:text-sm text-gray-500 mt-1">Moral Grounding</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us / Features -->
+{% if features %}
+<section class="pt-10 pb-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Beneficent Advantage</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl mt-2">Why Parents Choose Us</h2>
+            <div class="w-24 h-1 bg-blue-600 mx-auto mt-6 rounded"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for feature in features %}
+            <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 group transform hover:-translate-y-2 relative overflow-hidden" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-700 pointer-events-none"></div>
+                <div class="relative z-10 w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-inner">
+                    {% if feature.icon %}
+                    <i class="{{ feature.icon }} text-2xl"></i>
+                    {% else %}
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    {% endif %}
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors">{{ feature.title }}</h3>
+                <p class="text-gray-600 leading-relaxed">{{ feature.description }}</p>
+                {% if feature.link %}
+                <a href="{{ feature.link }}" class="mt-4 flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors">
+                    Learn more 
+                    <svg class="w-4 h-4 ml-1 group-hover:ml-2 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-gray-50 border-t border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 section-fade-in">
+            <h2 class="text-3xl font-extrabold text-blue-900 sm:text-4xl">What Parents Say</h2>
+            <div class="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="bg-white rounded-3xl shadow-sm p-8 border border-gray-100 flex flex-col h-full relative hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <!-- Quote Icon -->
+                <div class="absolute top-6 right-8 text-blue-100">
+                    <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true"><path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" /></svg>
+                </div>
+                
+                <div class="flex-grow z-10">
+                    <p class="text-gray-600 italic leading-relaxed text-lg mb-6 line-clamp-4">"{{ testimonial.quote }}"</p>
+                </div>
+                
+                <div class="flex items-center mt-6 z-10 pt-6 border-t border-gray-100">
+                    {% if testimonial.image %}
+                    <img class="h-12 w-12 rounded-full object-cover mr-4" src="{{ testimonial.image.url }}" alt="{{ testimonial.author_name }}" loading="lazy">
+                    {% else %}
+                    <div class="h-12 w-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg mr-4 uppercase">
+                        {{ testimonial.author_name|first }}
+                    </div>
+                    {% endif %}
+                    <div>
+                        <div class="text-base font-bold text-gray-900">{{ testimonial.author_name }}</div>
+                        {% if testimonial.author_role %}
+                        <div class="text-sm text-gray-500">{{ testimonial.author_role }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Placeholder if no testimonials exist yet -->
+            <div class="col-span-full text-center py-10 text-gray-500">
+                Success stories from our parents will appear here soon.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section class="bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-950 py-24 relative overflow-hidden">
+    <!-- Decorative Blobs -->
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-blue-500 opacity-20 blur-3xl mix-blend-screen animate-pulse"></div>
+    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-indigo-500 opacity-20 blur-3xl mix-blend-screen animate-pulse"></div>
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10" data-aos="zoom-in">
+        <h2 class="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tight">Ready to join {{ site_name }}?</h2>
+        <p class="text-blue-100 text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+            Give your child the gift of a balanced education, blending academic excellence with moral and spiritual grounding.
+        </p>
+        <div class="flex justify-center flex-wrap gap-4">
+            <a href="#" class="px-8 py-4 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-0.5">Enrol Your Child</a>
+            <a href="#" class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors">Contact Admissions</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

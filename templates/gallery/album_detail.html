@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ album.title }} - Gallery | {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-16 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a href="{% url 'gallery:album_list' %}" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 mb-8 transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Albums
+        </a>
+
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12 mb-12">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">{{ album.title }}</h1>
+            <div class="flex items-center text-gray-500 text-sm mb-6 space-x-6">
+                {% if album.date_taken %}
+                <span class="flex items-center">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    {{ album.date_taken|date:"F j, Y" }}
+                </span>
+                {% endif %}
+                <span class="flex items-center font-semibold">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    {{ album.images.count }} Photos
+                </span>
+            </div>
+            
+            {% if album.description %}
+            <p class="text-lg text-gray-600 max-w-3xl">{{ album.description|linebreaksbr }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Masonry-style or Grid layout for images -->
+        <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+            {% for photo in album.images.all %}
+            <div class="break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group relative cursor-pointer bg-white">
+                <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:album.title }}" loading="lazy" class="w-full object-cover">
+                {% if photo.caption %}
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                    <p class="text-white p-4 font-medium text-sm">{{ photo.caption }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center py-20 text-gray-500">
+                No images completely uploaded to this album yet.
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

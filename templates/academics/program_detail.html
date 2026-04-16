@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ program.title }} | Programs | {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="bg-blue-900 text-white min-h-[50vh] flex items-center relative">
+    {% if program.image %}
+    <div class="absolute inset-0 z-0">
+        <img src="{{ program.image.url }}" alt="{{ program.title }}" class="w-full h-full object-cover opacity-30">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-900/70"></div>
+    </div>
+    {% endif %}
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20">
+        <span class="text-blue-300 font-semibold tracking-wider uppercase text-sm mb-2 block">Educational Program</span>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">{{ program.title }}</h1>
+        {% if program.summary %}
+        <p class="text-xl text-blue-100 max-w-2xl leading-relaxed">{{ program.summary }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-3 lg:gap-12">
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-2 mb-12 lg:mb-0">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Program Overview</h2>
+                    <div class="prose prose-blue prose-lg max-w-none text-gray-600">
+                        {{ program.overview|linebreaks }}
+                    </div>
+                </div>
+
+                {% if program.curriculum_details %}
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Curriculum Details</h2>
+                    <div class="prose prose-blue prose-lg max-w-none text-gray-600">
+                        {{ program.curriculum_details|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if program.subjects.all %}
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Core Subjects & Focus Areas</h2>
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        {% for subject in program.subjects.all %}
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mr-4">
+                                {% if subject.icon %}
+                                <i class="{{ subject.icon }}"></i>
+                                {% else %}
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">{{ subject.name }}</h4>
+                                {% if subject.description %}
+                                <p class="text-gray-600 text-sm mt-1">{{ subject.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-blue-50 rounded-2xl p-8 border border-blue-100 sticky top-24">
+                    <h3 class="text-xl font-bold text-blue-900 mb-4">Want to learn more?</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Discover how our {{ program.title }} can benefit your child's future.</p>
+                    
+                    <a href="{% url 'core:contact' %}" class="w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-sm font-bold rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors mb-4">
+                        Contact Us
+                    </a>
+                    
+                    <a href="{% url 'academics:index' %}" class="w-full inline-flex justify-center items-center px-4 py-3 border border-blue-200 text-sm font-bold rounded-lg text-blue-700 bg-white hover:bg-blue-50 transition-colors">
+                        Back to Academics
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ division.title }} | Academics | {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="bg-blue-900 text-white min-h-[50vh] flex items-center relative">
+    {% if division.image %}
+    <div class="absolute inset-0 z-0">
+        <img src="{{ division.image.url }}" alt="{{ division.title }}" class="w-full h-full object-cover opacity-30">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-900/70"></div>
+    </div>
+    {% endif %}
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20">
+        <span class="text-blue-300 font-semibold tracking-wider uppercase text-sm mb-2 block">Our Schools</span>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">{{ division.title }}</h1>
+        {% if division.summary %}
+        <p class="text-xl text-blue-100 max-w-2xl leading-relaxed">{{ division.summary }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-3 lg:gap-12">
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-2 mb-12 lg:mb-0">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Overview</h2>
+                    <div class="prose prose-blue prose-lg max-w-none text-gray-600">
+                        {{ division.overview|linebreaks }}
+                    </div>
+                </div>
+
+                {% if division.teaching_approach %}
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Teaching Approach</h2>
+                    <div class="prose prose-blue prose-lg max-w-none text-gray-600">
+                        {{ division.teaching_approach|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if division.subjects.all %}
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Key Subject Areas</h2>
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        {% for subject in division.subjects.all %}
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mr-4">
+                                {% if subject.icon %}
+                                <i class="{{ subject.icon }}"></i>
+                                {% else %}
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">{{ subject.name }}</h4>
+                                {% if subject.description %}
+                                <p class="text-gray-600 text-sm mt-1">{{ subject.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-blue-900 rounded-2xl p-8 text-white shadow-xl sticky top-24">
+                    <h3 class="text-xl font-bold mb-4">Admissions are open</h3>
+                    <p class="text-blue-100 mb-6 text-sm">Secure a place for your child in our {{ division.title|lower }} for the next academic session.</p>
+                    
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Expert Teachers
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Modern Facilities
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Balanced Education
+                        </li>
+                    </ul>
+
+                    <a href="{% url 'core:contact' %}" class="w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-sm font-bold rounded-lg text-blue-900 bg-white hover:bg-gray-100 transition-colors">
+                        Enquire Now
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
