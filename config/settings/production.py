@@ -1,6 +1,24 @@
 from .base import *
+from .base import env
 
 DEBUG = False
+
+ALLOWED_HOSTS = env.list(
+    "ALLOWED_HOSTS",
+    default=["127.0.0.1", "localhost", "beneficentschools.com", "www.beneficentschools.com"]
+)
+
+CSRF_TRUSTED_ORIGINS = env.list(
+    "CSRF_TRUSTED_ORIGINS",
+    default=[
+        "https://beneficentschools.com",
+        "https://www.beneficentschools.com",
+    ]
+)
+
+if env.bool("RENDER", default=False):
+    ALLOWED_HOSTS.append(env("RENDER_EXTERNAL_HOSTNAME"))
+    DATABASES["default"]["CONN_MAX_AGE"] = 60
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True

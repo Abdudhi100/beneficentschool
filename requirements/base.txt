@@ -1,6 +1,0 @@
-Django>=5.1,<6.0
-psycopg[binary]>=3.2
-django-environ>=0.11
-Pillow>=10.4
-whitenoise>=6.8
-django-ckeditor>=6.7
