@@ -1,6 +1,9 @@
 from .base import *
 from .base import env
 
+WHITENOISE_MANIFEST_STRICT = False
+
+
 DEBUG = False
 
 ALLOWED_HOSTS = env.list(
