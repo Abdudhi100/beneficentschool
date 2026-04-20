@@ -16,6 +16,7 @@ CSRF_TRUSTED_ORIGINS = env.list(
     default=[
         "https://beneficentschools.com",
         "https://www.beneficentschools.com",
+        "https://beneficentschools.onrender.com",
     ]
 )
 

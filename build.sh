@@ -2,7 +2,10 @@
 set -o errexit
 set -o xtrace
 
-python -m pip install -r requirements.txt
+npm install
+npm run build:css
+
+pip install -r requirements.txt
 
 export DJANGO_SETTINGS_MODULE=config.settings.production
 
