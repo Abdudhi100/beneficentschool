@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# exit on error
 set -o errexit
+set -o xtrace
 
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
-python manage.py collectstatic --no-input
+export DJANGO_SETTINGS_MODULE=config.settings.production
+
 python manage.py migrate
+python manage.py collectstatic --no-input
