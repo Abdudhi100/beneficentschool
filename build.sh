@@ -2,6 +2,7 @@
 set -o errexit
 set -o xtrace
 
+rm -rf node_modules
 npm install
 npm run build:css
 
