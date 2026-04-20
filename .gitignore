@@ -45,3 +45,4 @@ venv/
 .idea/
 .vscode/
 *.swp
+staticfiles/
